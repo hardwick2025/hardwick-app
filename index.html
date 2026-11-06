@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Hardwick</title>
+
+<!-- Home screen app settings (iPhone and Android) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Hardwick">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f6f4ee">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="manifest" href="manifest.json">
+
+<style>
+  html, body { margin: 0; height: 100%; background: #f6f4ee; }
+  body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); box-sizing: border-box; }
+  iframe { display: block; width: 100%; height: 100%; border: 0; }
+</style>
+</head>
+<body>
+<!-- The app itself runs from Google Apps Script (the Hardwick Tap Page script on the Tap Log sheet).
+     If that web app link ever changes, update APP_URL below. -->
+<iframe id="app" title="Hardwick" allow="clipboard-write"></iframe>
+<script>
+  var APP_URL = 'https://script.google.com/macros/s/AKfycbwcqRiVpXF7uIUYalKcEsCz8y7YFUQGK45tp2OrUBII8iR_xO5DXw5rNE6FxDjwSi28ng/exec';
+  // Pass anything after "?" through, so app.hardwickornamentals.co.nz/?log=Spray Log opens that log directly
+  document.getElementById('app').src = APP_URL + location.search;
+</script>
+</body>
+</html>
