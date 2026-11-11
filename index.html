@@ -30,5 +30,24 @@
   // Pass anything after "?" through, so app.hardwickornamentals.co.nz/?log=Spray Log opens that log directly
   document.getElementById('app').src = APP_URL + location.search;
 </script>
+<script>
+  // Keeps the app's remembered settings (passcode, who's logging) on this site,
+  // because iPhones keep clearing what the Google frame stores. Only Google's app frame can read or change them.
+  (function () {
+    var PREFIX = 'cd_';
+    function fromGoogle(origin) { try { return /\.googleusercontent\.com$/.test(new URL(origin).hostname); } catch (e) { return false; } }
+    window.addEventListener('message', function (e) {
+      if (!fromGoogle(e.origin)) return;
+      var d = e.data || {};
+      if (d.cd === 'getAll') {
+        var vals = {};
+        try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k.indexOf(PREFIX) === 0) vals[k.slice(PREFIX.length)] = localStorage.getItem(k); } } catch (x) {}
+        e.source.postMessage({ cd: 'all', vals: vals }, e.origin);
+      } else if (d.cd === 'save' && typeof d.k === 'string') {
+        try { if (d.v) localStorage.setItem(PREFIX + d.k, String(d.v)); else localStorage.removeItem(PREFIX + d.k); } catch (x) {}
+      }
+    });
+  })();
+</script>
 </body>
 </html>
